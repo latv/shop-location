@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+}
+.shop-name{
+
+    font-weight: bold;
+}
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 300px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+.working-hour{
+  font-weight: bold;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 8px;
+  text-decoration: none;
+  /* text-align: center; */
+}
+ 
+/* .sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+} */
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+a:hover {
+  background-color: #ddd;
+  color: black;
+}
+.previous {
+  padding-bottom: 0;
+    padding-top: 0;
+  font-size: 35px;
+  background-color: #f1f1f1;
+  color: black;
+}
+
+
+
+
+.sidebar a:hover {
+  background-color: black;
+  color: white;
+}
+
+#shop-information {
+  text-align: center;
+}
+
+
+div.content {
+  margin-left: 300px;
+  padding: 1px 16px;
+  /* height: 1000px; */
+}
+
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  /* .sidebar a {float: left;} */
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    /* text-align: center; */
+    /* float:; */
+  }
+}
+iframe{
+    width: 100%;
+    height: 300px;
+}
+</style>
+<script>
+    // Converts numeric degrees to radians
+    function toRad(Value) 
+    {
+        return Value * Math.PI / 180;
+    }
+function calcCrow(lat1, lon1, lat2, lon2) 
+    {
+      var R = 6371; // km
+      var dLat = toRad(lat2-lat1);
+      var dLon = toRad(lon2-lon1);
+      var lat1 = toRad(lat1);
+      var lat2 = toRad(lat2);
+
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = R * c;
+      return d;
+    }
+
+var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+function success(pos) {
+  var crd = pos.coords;
+
+  console.log('Your current position is:');
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  console.log(`More or less ${crd.accuracy} meters.`);
+
+  document.getElementById("distant1").innerHTML=calcCrow(56.98266781020896, 24.203742483273185, crd.latitude,crd.longitude).toFixed(1) + "km";
+  document.getElementById("distant2").innerHTML=calcCrow(56.96656595292741, 24.16300698512883, crd.latitude,crd.longitude).toFixed(1) + "km";
+  document.getElementById("distant3").innerHTML=calcCrow(56.956098235030076, 23.907319469781893, crd.latitude,crd.longitude).toFixed(1) + "km";
+
+
+}
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+navigator.geolocation.getCurrentPosition(success, error, options);
+
+function resetSidebar(){
+  document.getElementById("sidebar").innerHTML= ' <a onclick="setLocation1()" id="shop1" ><p class="shop-name">Alfa</p> Brīvības gatve 372, Rīga <p id="distant1" ></p></a><hr><a onclick="setLocation2()" id="shop2"><p class="shop-name">Domina Shopping</p>Ieriķu iela 3, Rīga <p id="distant2"></p></a><hr> <a onclick="setLocation3()" id="shop3" ><p class="shop-name">Via Jurmala Outlet Village</p> Jaunā iela 12, Piņķi <p id="distant3"></p></a>';
+
+}
+
+
+function setLocation1(){
+    document.getElementById("sidebar").innerHTML= '<a onClick="resetSidebar()" class="previous round">&#8592;</a> <a onclick="setLocation1()" id="shop1" ><p class="shop-name">Alfa</p> Brīvības gatve 372, Rīga <p id="distant1" ></p></a>     <div id="shop-information"></div>';
+    document.getElementById("map").innerHTML = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2174.02906570558!2d24.20159671594997!3d56.98256258090007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46eece8d74b0b553%3A0x7425218ed323e8cb!2sAlfa!5e0!3m2!1sen!2slv!4v1626266429778!5m2!1sen!2slv"  style="border:0;" allowfullscreen="" loading="lazy"></iframe>';
+    document.getElementById("shop-information").innerHTML = "<p class='working-hour' >Grafiks šodienai</p> <p>10-21</p>"
+
+}
+function setLocation2(){
+
+    document.getElementById("map").innerHTML = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2174.96984751805!2d24.16078611594925!3d56.96644898089536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46eece4f87a96f9f%3A0xd4b908bee3cb6b97!2sDomina%20Shopping!5e0!3m2!1sen!2slv!4v1626270572276!5m2!1sen!2slv" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>';
+    document.getElementById('sidebar').innerHTML='<a onClick="resetSidebar()" class="previous round">&#8592;</a>   <a onclick="setLocation2()" id="shop2"><p class="shop-name">Domina Shopping</p>Ieriķu iela 3, Rīga <p id="distant2"></p></a>  <div id="shop-information"></div>'
+    document.getElementById("shop-information").innerHTML = "<p class='working-hour' >Grafiks šodienai</p><p>10-21</p>"
+
+
+}
+function setLocation3(){
+  document.getElementById('sidebar').innerHTML='<a onClick="resetSidebar()" class="previous round">&#8592;</a>   <a onclick="setLocation3()" id="shop3" ><p class="shop-name">Via Jurmala Outlet Village</p> Jaunā iela 12, Piņķi <p id="distant3"></p>    <div id="shop-information"></div>'
+    document.getElementById("map").innerHTML = ' <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d286.5033696163832!2d23.90698013445783!3d56.95613714066269!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46eedb567061eced%3A0x7381d9700582e111!2sVia%20Jurmala%20Outlet%20Village!5e0!3m2!1sen!2slv!4v1626270723965!5m2!1sen!2slv" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>';
+    document.getElementById("shop-information").innerHTML = "<p class='working-hour' >Grafiks šodienai</p><p>10-20</p>"
+
+}
+
+
+
+</script>
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+  <a onclick="setLocation1()" id="shop1" ><p class="shop-name">Alfa</p> Brīvības gatve 372, Rīga <p id="distant1" ></p></a>
+  <hr>
+  <a onclick="setLocation2()" id="shop2"><p class="shop-name">Domina Shopping</p>
+    Ieriķu iela 3, Rīga <p id="distant2"></p></a>
+    <hr>
+  <a onclick="setLocation3()" id="shop3" ><p class="shop-name">Via Jurmala Outlet Village</p> Jaunā iela 12, Piņķi <p id="distant3"></p>
+    </a>
+
+</div>
+
+<div class="content">
+<div id="map">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d70782.56867592697!2d23.902479487248907!3d56.93920024966684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46eedbc855008bf3%3A0xfbd816961af0638b!2sBlack%20Swan%20by%20Olga%20Broka!5e0!3m2!1sen!2slv!4v1626270880576!5m2!1sen!2slv" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</div>
+
+</div>
+
+</body>
+</html>
