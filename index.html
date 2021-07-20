@@ -17,7 +17,7 @@ body {
   width: 300px;
   background-color: #f1f1f1;
   position: absolute;
-  height: 500px;
+  height: 650px;
   overflow: auto;
 }
 .working-hour{
@@ -105,7 +105,7 @@ div.content {
 }
 iframe{
     width: 100%;
-    height: 500px;
+    height: 650px;
 }
 </style>
 <script>
@@ -146,6 +146,7 @@ function success(pos) {
   document.getElementById("distant1").innerHTML= (calcCrow(56.98266781020896, 24.203742483273185, crd.latitude,crd.longitude) < 1) ?  (calcCrow(56.98266781020896, 24.203742483273185, crd.latitude,crd.longitude) * 1000).toFixed(0) + "m" : calcCrow(56.98266781020896, 24.203742483273185, crd.latitude,crd.longitude).toFixed(1) + "km";
   document.getElementById("distant2").innerHTML=(calcCrow(56.96656595292741, 24.16300698512883, crd.latitude,crd.longitude)< 1)? (calcCrow(56.96656595292741, 24.16300698512883, crd.latitude,crd.longitude)*1000).toFixed(0)+"m" : calcCrow(56.96656595292741, 24.16300698512883, crd.latitude,crd.longitude).toFixed(1) + "km";
   document.getElementById("distant3").innerHTML= (calcCrow(56.956098235030076, 23.907319469781893, crd.latitude,crd.longitude) < 1) ? (calcCrow(56.956098235030076, 23.907319469781893, crd.latitude,crd.longitude)*1000)+"m" : calcCrow(56.956098235030076, 23.907319469781893, crd.latitude,crd.longitude).toFixed(1) + "km";
+  document.getElementById("distant4").innerHTML= (calcCrow(56.92648171403745, 24.10354652745397, crd.latitude,crd.longitude) < 1) ? (calcCrow(56.92648171403745, 24.10354652745397, crd.latitude,crd.longitude)*1000)+"m" : calcCrow(56.92648171403745, 24.10354652745397, crd.latitude,crd.longitude).toFixed(1) + "km";
 
 
 }
@@ -186,6 +187,17 @@ function success3(pos) {
   document.getElementById("distant3").innerHTML= (calcCrow(56.956098235030076, 23.907319469781893, crd.latitude,crd.longitude) < 1) ? (calcCrow(56.956098235030076, 23.907319469781893, crd.latitude,crd.longitude)*1000)+"m" : calcCrow(56.956098235030076, 23.907319469781893, crd.latitude,crd.longitude).toFixed(1) + "km";
 
 }
+function success4(pos) {
+  var crd = pos.coords;
+
+  console.log('Your current position is:');
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  console.log(`More or less ${crd.accuracy} meters.`);
+
+  document.getElementById("distant4").innerHTML= (calcCrow(56.92648171403745, 24.10354652745397, crd.latitude,crd.longitude) < 1) ? (calcCrow(56.92648171403745, 24.10354652745397, crd.latitude,crd.longitude)*1000)+"m" : calcCrow(56.92648171403745, 24.10354652745397, crd.latitude,crd.longitude).toFixed(1) + "km";
+
+}
 
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
@@ -194,7 +206,7 @@ function error(err) {
 navigator.geolocation.getCurrentPosition(success, error, options);
 
 function resetSidebar(){
-  document.getElementById("sidebar-shop").innerHTML= ' <a onclick="setLocation1()" id="shop1" ><p class="shop-name">Alfa</p> Brīvības gatve 372, Rīga <p id="distant1" ></p></a><hr><a onclick="setLocation2()" id="shop2"><p class="shop-name">Domina Shopping</p>Ieriķu iela 3, Rīga <p id="distant2"></p></a><hr> <a onclick="setLocation3()" id="shop3" ><p class="shop-name">Via Jurmala Outlet Village</p> Jaunā iela 12, Piņķi <p id="distant3"></p></a>';
+  document.getElementById("sidebar-shop").innerHTML= '  <a onclick="setLocation1()" id="shop1" ><p class="shop-name">Alfa</p> Brīvības gatve 372, Rīga <p id="distant1" ></p></a><hr><a onclick="setLocation2()" id="shop2"><p class="shop-name">Domina Shopping</p>Ieriķu iela 3, Rīga <p id="distant2"></p></a><hr><a onclick="setLocation3()" id="shop3" ><p class="shop-name">Via Jurmala Outlet Village</p> Jaunā iela 12, Piņķi <p id="distant3"></p></a><hr><a onclick="setLocation4()" id="shop4" ><p class="shop-name">Rīga plaza</p> Mūkusala iela 71 <p id="distant4"></p></a>';
   navigator.geolocation.getCurrentPosition(success, error, options);
 }
 
@@ -221,7 +233,12 @@ function setLocation3(){
     document.getElementById("shop-information").innerHTML = "<p class='working-hour' >Grafiks šodienai</p><p>10-20</p>"
     navigator.geolocation.getCurrentPosition(success3, error, options);
 }
-
+function setLocation4(){
+  document.getElementById('sidebar-shop').innerHTML='<a onClick="resetSidebar()" class="previous round">&#8592;</a>   <a onclick="setLocation4()" id="shop4" ><p class="shop-name">Riga Plaza</p> Mūkusalas 71 <p id="distant4"></p>  <p id="distant4"></p>   <div id="shop-information"></div>'
+    document.getElementById("map").innerHTML = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2177.3083751406293!2d24.101347115947675!3d56.926382180883536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46eed1cb8281f83f%3A0xec396dfa8e1f199c!2sRiga%20Plaza!5e0!3m2!1sen!2slv!4v1626766751825!5m2!1sen!2slv" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe><div class="maps-conatainer"> <a href="http://maps.google.com/?q=riga%20plaza"><img src="https://blackswan.lv/wp-content/uploads/google-maps.png" class="mobile-maps" ></a>  <a href="https://www.waze.com/lv/live-map/directions/latvija/riga/riga-plaza?utm_source=waze_website&utm_campaign=waze_website&utm_medium=website_menu&to=place.ChIJP_iBgsvR7kYRnBkfjvptOew" > <img src="https://blackswan.lv/wp-content/uploads/waze.png" class="mobile-maps" > </a></div>';
+    document.getElementById("shop-information").innerHTML = "<p class='working-hour' >Grafiks šodienai</p><p>10-21</p>"
+    navigator.geolocation.getCurrentPosition(success3, error, options);
+}
 
 
 </script>
@@ -235,6 +252,9 @@ function setLocation3(){
     Ieriķu iela 3, Rīga <p id="distant2"></p></a>
     <hr>
   <a onclick="setLocation3()" id="shop3" ><p class="shop-name">Via Jurmala Outlet Village</p> Jaunā iela 12, Piņķi <p id="distant3"></p>
+    </a>
+    <hr>
+    <a onclick="setLocation4()" id="shop4" ><p class="shop-name">Rīga plaza</p> Mūkusala iela 71 <p id="distant4"></p>
     </a>
 
 </div>
